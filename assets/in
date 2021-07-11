@@ -31,7 +31,7 @@ ref=$(jq -r '.version.ref // "HEAD"' < $payload)
 depth=$(jq -r '(.params.depth // 0)' < $payload)
 fetch=$(jq -r '(.params.fetch // [])[]' < $payload)
 submodules=$(jq -r '(.params.submodules // "all")' < $payload)
-
+short_ref_format=$(jq -r '(.params.short_ref_format // "%s")' < $payload)
 ## Redis stuff to support cleaner multibranch wait-for-previous behaviour
 redis_host=$(jq -r '.source.redis.host // ""' < $payload)
 if [ -n "$redis_host" ] ; then
@@ -120,6 +120,9 @@ then
     exit 1
   fi
 fi
+
+# Store short ref with templating. Useful to build Docker images with a custom tag
+echo "${return_ref}" | cut -c1-7 | awk "{ printf \"${short_ref_format}\", \$1 }" > .git/short_ref
 
 new_ref="$(echo "$(git rev-parse HEAD)$ref_extras" | jq -R .)"
 jq -n "{

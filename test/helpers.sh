@@ -231,11 +231,7 @@ test_get() {
     addition=""
     case $arg in
       "uri" )
-        addition="$(jq -n "{
-          source: {
-            uri: $(echo $1 | jq -R .)
-          }
-        }")"
+        addition="$(jq -n "{source: {uri: $(echo $1 | jq -R .)}}")"
         shift;;
 
       "depth" )

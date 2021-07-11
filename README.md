@@ -131,6 +131,7 @@ Submodules are initialized and updated recursively.
   fetched. If not specified, or if `all` is explicitly specified, all
   submodules are fetched.
 
+* `short_ref_format`: *Optional.* When populating `.git/short_ref` use this `printf` format. Defaults to `%s`.
 
 ### `out`: Push to a repository.
 

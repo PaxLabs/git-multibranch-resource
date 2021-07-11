@@ -9,9 +9,7 @@ it_can_get_from_url() {
   local ref=$(make_commit $repo)
   local dest=$TMPDIR/destination
 
-  test_get $dest uri $repo | jq -e "
-    .version == {ref: $(echo $ref | jq -R .)}
-  "
+  test_get $dest uri $repo | jq -e ".version == {ref: $(echo $ref | jq -R .)}"
 
   test -e $dest/some-file
   test "$(git -C $dest rev-parse HEAD)" = $ref
